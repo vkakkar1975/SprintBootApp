@@ -10,6 +10,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
+                /opt/maven/mvn/install
             }
         }
         stage('Deploy') {
