@@ -1,2 +1,3 @@
 # SprintBootApp
-Capstone Project
+Capstone Project by Vivek Kakkar
+Final Assignment
