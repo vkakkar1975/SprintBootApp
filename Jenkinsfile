@@ -24,12 +24,14 @@ pipeline {
         }
         stage('Create') {
             steps {
-                script {
-                   dockerImage = docker.build registry + ":3.0.0"
-                }
+                sh '''
+
+                   docker image build . vkakkar1975/springbootapp:3.0.0
+                
+                '''
             }
         }
-        
+
         stage('Deploy') {
             steps {
                script {
