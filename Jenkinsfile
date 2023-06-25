@@ -24,7 +24,9 @@ pipeline {
         }
         stage('Create') {
             steps {
-                dockerImage = docker.build registry + ":3.0.0"
+                script {
+                   dockerImage = docker.build registry + ":3.0.0"
+                }
             }
         }
         stage('Deploy') {
