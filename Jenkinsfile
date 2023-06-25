@@ -9,10 +9,14 @@ pipeline {
         }
         stage('Test') {
             steps {
+                sh '''
+                
                 echo 'Testing..'
                 /opt/maven/bin/mvn install
                 ls -l ./target/
                 docker ps
+                
+                '''
             }
         }
         stage('Deploy') {
