@@ -1,16 +1,9 @@
 pipeline {
 
-    environment {
-        registry = "vkakkar1975/springbootapp"
-        registryCredential = 'dockerhub'
-        dockerImage = ''
-    }
-
-
     agent any
 
     stages {
-        stage('Build') {
+        stage('Build App') {
             steps {
                 sh '''
                 export JAVA_HOME='/usr/lib/jvm/java-11-openjdk-11.0.19.0.7-1.amzn2.0.1.x86_64'
@@ -22,24 +15,38 @@ pipeline {
                 '''
             }
         }
-        stage('Create') {
-            steps {
-                sh '''
-
-                   docker image build . vkakkar1975/springbootapp:3.0.0
-                
-                '''
-            }
-        }
-
-        stage('Deploy') {
+        stage('Build image for App') {
             steps {
                script {
-                 docker.withRegistry( '', registryCredential ) {
-                    dockerImage.push()
-                 }
+                       dockerImage = docker.build("vkakkar1975/springbootapp:3.0.0")
                }
             }
-        }
+       }
+  
+       stage('Push image') {
+            steps {
+                script {
+                    withDockerRegistry([ credentialsId: "registryCredential", url: "" ]) {
+                        dockerImage.push()
+                    }
+                }
+            }  
+       }
+
+
+      stage('Test Pushed image') {
+            agent {
+                docker {
+                    image 'vkakkar1975/springbootapp:3.0.0'
+                }
+            }
+            steps {
+                sh 'sleep 30'
+                sh 'curl -s http://localhost:8080/getMessage'
+                sh 'curl -s http://localhost:8080/getDate'
+                sh 'curl -s http://localhost:8080/getLocale'
+                sh 'echo "Test Passed'
+            }
+     }
     }
 }
