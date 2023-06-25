@@ -10,7 +10,8 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                
+
+                echo $JAVA_HOME
                 echo 'Testing..'
                 /opt/maven/bin/mvn install
                 ls -l ./target/
