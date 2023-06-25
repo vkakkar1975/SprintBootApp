@@ -1,13 +1,16 @@
 pipeline {
+
+    environment {
+        registry = "vkakkar1975/springbootapp"
+        registryCredential = 'dockerhub'
+        dockerImage = ''
+    }
+
+
     agent any
 
     stages {
         stage('Build') {
-            steps {
-                echo 'Building..'
-            }
-        }
-        stage('Test') {
             steps {
                 sh '''
                 export JAVA_HOME='/usr/lib/jvm/java-11-openjdk-11.0.19.0.7-1.amzn2.0.1.x86_64'
@@ -16,14 +19,21 @@ pipeline {
                 /opt/maven/bin/mvn --version
                 /opt/maven/bin/mvn install
                 ls -l ./target/
-                docker ps
-                
                 '''
+            }
+        }
+        stage('Create') {
+            steps {
+                dockerImage = docker.build registry + ":3.0.0"
             }
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
+               script {
+                 docker.withRegistry( '', registryCredential ) {
+                    dockerImage.push()
+                 }
+               }
             }
         }
     }
