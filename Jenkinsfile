@@ -45,7 +45,7 @@ pipeline {
                 sh 'curl -s http://localhost:8080/getMessage'
                 sh 'curl -s http://localhost:8080/getDate'
                 sh 'curl -s http://localhost:8080/getLocale'
-                sh 'echo "Test Passed'
+                sh 'echo "Test Passed"'
             }
      }
     }
