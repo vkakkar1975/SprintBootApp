@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Locale; 
 
 @RestController
-public class Controller {
+public class HomeController {
 
 	@GetMapping("/getMessage")
 	public String getMessage() {
