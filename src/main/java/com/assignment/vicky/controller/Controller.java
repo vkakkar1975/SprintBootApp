@@ -11,7 +11,7 @@ public class Controller {
 
 	@GetMapping("/getMessage")
 	public String getMessage() {
-		return "My final assignment #3";
+		return "My final assignment #final capstone execution";
 	}
 	@GetMapping("/getDate")
 	public String getDate() {
